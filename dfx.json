@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "NFTease_backend": {
+      "main": "src/NFTease_backend/main.mo",
+      "type": "motoko"
+    },
+    "NFTease_frontend": {
+      "dependencies": [
+        "NFTease_backend"
+      ],
+      "source": [
+        "src/NFTease_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "NFTease_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
