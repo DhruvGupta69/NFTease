@@ -5,7 +5,9 @@ import { idlFactory } from "../../../declarations/nft";
 import { Principal } from "@dfinity/principal";
 
 function Item(props) {
-  const [name, setName] = useState("Abh");
+  const [name, setName] = useState();
+  const [image, setImage] = useState();
+  const [owner, setOwner] = useState();
 
   const id = Principal.fromText(props.id);
   const localhost = "http://127.0.0.1:3000/";
@@ -18,8 +20,17 @@ function Item(props) {
       canisterId: id,
     });
 
-    const actorName = await nftActor.getName();
-    setName(actorName);
+    const name = await nftActor.getName();
+    const owner = await nftActor.getOwner();
+    const imageData = await nftActor.getAsset();
+    const imageContent = new Uint8Array(imageData);
+    const image = URL.createObjectURL(
+      new Blob([imageContent.buffer], { type: "image/png" })
+    );
+
+    setName(name);
+    setOwner(owner.toText());
+    setImage(image);
   }
 
   useEffect(() => {
@@ -31,7 +42,7 @@ function Item(props) {
       <div className="disPaper-root disCard-root makeStyles-root-17 disPaper-elevation1 disPaper-rounded">
         <img
           className="disCardMedia-root makeStyles-image-19 disCardMedia-media disCardMedia-img"
-          src={logo}
+          src={image}
         />
         <div className="disCardContent-root">
           <h2 className="disTypography-root makeStyles-bodyText-24 disTypography-h5 disTypography-gutterBottom">
@@ -39,7 +50,7 @@ function Item(props) {
             <span className="purple-text"></span>
           </h2>
           <p className="disTypography-root makeStyles-bodyText-24 disTypography-body2 disTypography-colorTextSecondary">
-            Owner: sdfsdf-erwerv-sdf
+            Owner: {owner}
           </p>
         </div>
       </div>
