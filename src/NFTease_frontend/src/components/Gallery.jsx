@@ -8,7 +8,9 @@ function Gallery(props) {
   function fetchNFTs() {
     if (props.ids != undefined) {
       setItems(
-        props.ids.map((NFTID) => <Item id={NFTID} key={NFTID.toText()} />)
+        props.ids.map((NFTId) => (
+          <Item id={NFTId} key={NFTId.toText()} role={props.role} />
+        ))
       );
     }
   }

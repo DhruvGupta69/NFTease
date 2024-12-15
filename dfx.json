@@ -4,17 +4,13 @@
       "main": "src/NFTease_backend/main.mo",
       "type": "motoko"
     },
-    "nft" : {
+    "nft": {
       "main": "src/NFT/nft.mo",
       "type": "motoko"
     },
     "NFTease_frontend": {
-      "dependencies": [
-        "NFTease_backend"
-      ],
-      "source": [
-        "src/NFTease_frontend/dist"
-      ],
+      "dependencies": ["NFTease_backend", "nft"],
+      "source": ["src/NFTease_frontend/dist"],
       "type": "assets",
       "workspace": "NFTease_frontend"
     }

@@ -6,8 +6,8 @@ import Item from "./Item";
 import Minter from "./Minter";
 
 function App() {
-  const nftID = "bkyz2-fmaaa-aaaaa-qaaaq-cai";
-  console.log(nftID);
+  // const nftID = "bkyz2-fmaaa-aaaaa-qaaaq-cai";
+  // console.log(nftID);
   return (
     <div className="App">
       {/* <Item id={nftID} /> */}

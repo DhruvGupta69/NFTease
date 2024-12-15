@@ -6,23 +6,38 @@ import Item from "./Item";
 function Minter() {
   const { register, handleSubmit } = useForm();
   const [nftPrincipal, setNftPrincipal] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+
 
   async function onSubmit(data) {
-    const name = data.name;
-    const image = data.image[0];
-    const imageByteData = [...new Uint8Array(await image.arrayBuffer())];
+    setLoading(true);
+    setError("");
 
-    const newNFTID = await NFTease_backend.mint(imageByteData, name);
-    console.log(newNFTID.toText());
-    setNftPrincipal(newNFTID);
+    try{
+      const name = data.name;
+      const image = data.image[0];
+      const imageByteData = [...new Uint8Array(await image.arrayBuffer())];
+      
+      const newNFTID = await NFTease_backend.mint(imageByteData, name);
+      console.log(newNFTID.toText());
+      setNftPrincipal(newNFTID);
+    }catch(error){
+      console.log("Error printing NFT!",error);
+      setError("Error printing NFT, pls try again");
+    }finally{
+      setLoading(false);
+    }
   }
 
-  if (nftPrincipal == "") {
+  if (nftPrincipal === "") {
     return (
       <div className="minter-container">
         <h3 className="makeStyles-title-99 Typography-h3 form-Typography-gutterBottom">
-          Create NFT
+          {!loading ? "Create NFT" : "Creating NFT..."}
         </h3>
+        {error && <p className="error-message">{error}</p>}
         <h6 className="form-Typography-root makeStyles-subhead-102 form-Typography-subtitle1 form-Typography-gutterBottom">
           Upload Image
         </h6>
@@ -50,8 +65,8 @@ function Minter() {
             </div>
           </div>
           <div className="form-ButtonBase-root form-Chip-root makeStyles-chipBlue-108 form-Chip-clickable">
-            <span onClick={handleSubmit(onSubmit)} className="form-Chip-label">
-              Mint NFT
+            <span onClick={!loading ? handleSubmit(onSubmit) : undefined} className="form-Chip-label">
+              {loading ? "Minting..." : "Mint NFT"}
             </span>
           </div>
         </form>
